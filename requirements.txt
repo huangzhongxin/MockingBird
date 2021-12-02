@@ -18,6 +18,7 @@ pypinyin
 flask
 flask_wtf
 flask_cors
+flask_ngrok
 gevent==21.8.0
 flask_restx
 tensorboard

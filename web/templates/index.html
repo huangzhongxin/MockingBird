@@ -103,7 +103,7 @@
 			}
 		});
 		
-		fetch("/api/synthesizers", {
+		fetch("/api/synthesizers/", {
 			method: 'get',
 			headers: {
 				"X-CSRFToken": "{{ csrf_token() }}"

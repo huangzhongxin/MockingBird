@@ -2,6 +2,7 @@ from web.api import api_blueprint
 from pathlib import Path
 from gevent import pywsgi as wsgi
 from flask import Flask, Response, request, render_template
+from flask_ngrok import run_with_ngrok
 from synthesizer.inference import Synthesizer
 from encoder import inference as encoder
 from vocoder.hifigan import inference as gan_vocoder
@@ -26,6 +27,8 @@ def webApp():
     # CORS(app) #允许跨域，注释掉此行则禁止跨域请求
     csrf = CSRFProtect(app)
     csrf.init_app(app)
+
+    run_with_ngrok(app)  # Start ngrok when app is run
    
     syn_models_dirt = "synthesizer/saved_models"
     synthesizers = list(Path(syn_models_dirt).glob("**/*.pt"))
@@ -123,9 +126,10 @@ def webApp():
     port = app.config.get("PORT")
     web_address = 'http://{}:{}'.format(host, port)
     print(f"Web server:" + web_address)
-    webbrowser.open(web_address)
-    server = wsgi.WSGIServer((host, port), app)
-    server.serve_forever()
+    # webbrowser.open(web_address)
+    # server = wsgi.WSGIServer((host, port), app)
+    # server.serve_forever()
+    app.run()
     return app
 
 if __name__ == "__main__":
